@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  spark-master:
+    image: docker.io/bitnamilegacy/spark:3.5.5
+    user: root
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    volumes:
+      - ./spark-apps:/opt/spark-apps
+      - ./data:/data
+
+  spark-worker:
+    image: docker.io/bitnamilegacy/spark:3.5.5
+    user: root
+    # This allows you to scale workers easily: docker-compose up --scale spark-worker=3
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_CORES=1
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+    volumes:
+      - ./spark-apps:/opt/spark-apps
+      - ./data:/data
+    depends_on:
+      - spark-master
+
+  spark-client:
+    image: docker.io/bitnamilegacy/spark:3.5.5
+    user: root
+    environment:
+      - SPARK_MODE=client
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+    depends_on:
+      - spark-master
+    volumes:
+      - ./spark-apps:/opt/spark-apps
+      - ./data:/data
+    working_dir: /opt/spark-apps
+    command: tail -f /dev/null
+    ports:
+      - "4040:4040"
