@@ -144,13 +144,33 @@ source .venv/bin/activate
 
 ### Gérer les dépendances
 
-Ajouter une dépendance (par exemple `pyspark`) :
+**Ajouter un nouveau package** (par exemple `pyspark`) :
 
 ```bash
 uv add pyspark
 ```
 
-Exécuter un script Python dans l'environnement :
+**Ajouter un package avec une version précise** :
+
+```bash
+uv add pyspark==3.5.5
+```
+
+Cela met automatiquement à jour le fichier `pyproject.toml` et, si besoin, le `uv.lock`.
+
+**Installer toutes les dépendances définies dans le projet** (utile après un `git clone`) :
+
+```bash
+uv sync
+```
+
+**Installer uniquement les dépendances de dev** (section `dev` dans `pyproject.toml`) :
+
+```bash
+uv sync --group dev
+```
+
+**Exécuter un script Python dans l'environnement** :
 
 ```bash
 uv run python votre_script.py
