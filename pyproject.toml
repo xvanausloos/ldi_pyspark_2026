@@ -1,0 +1,16 @@
+[project]
+name = "ldi-pyspark-2026"
+version = "0.1.0"
+description = "LAB SPARK LDI Training Mars 2026"
+requires-python = ">=3.10"
+readme = "README.md"
+
+dependencies = [
+]
+
+[project.optional-dependencies]
+dev = [
+]
+
+[tool.uv]
+package = "ldi-pyspark-2026"
