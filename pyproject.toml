@@ -14,4 +14,3 @@ dev = [
 ]
 
 [tool.uv]
-package = "ldi-pyspark-2026"

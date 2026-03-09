@@ -132,4 +132,4 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
-
+/data/sales/* # Ignore all files in the sales directory
