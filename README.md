@@ -206,6 +206,9 @@ spark-submit \
   salted_join.py
 ```
 
+## Correction du skew avec le broadcast join
+`spark-apps/broadcast_join.py`
+
 
 ### Arrêter le cluster
 
