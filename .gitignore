@@ -132,4 +132,6 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
-
+# Ignore all files in the sales directory except the Git placeholder
+/data/sales/*
+!/data/sales/.gitkeep
