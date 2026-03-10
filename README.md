@@ -177,6 +177,36 @@ Pourquoi est-ce un "Skew" ?
 
     Gaspillage de ressources : Un exécuteur (ou cœur) était inactif alors que les autres étaient à pleine charge.
 
+### Démonstration skew sur join
+`spark-apps/skew_join.py` 
+
+Depuis le conteneur `spark-client` :
+
+```bash
+`docker compose exec -it spark-client bash`
+
+cd /opt/spark-apps
+spark-submit \
+  --master spark://spark-master:7077 \
+  skew_join.py
+```
+On voit dans l'interface Spark Application `http://localhost:4040/stages/stage/?id=2&attempt=0` qu'un des executor n'a rien traité:
+
+Executor ID,Logs (stdout),Logs (stderr),Address,Task Time,Total Tasks,Failed Tasks,Killed Tasks,Succeeded Tasks,Excluded,Input Size / Records,Shuffle Write Size / Records
+2,[stdout](#),[stderr](#),172.21.0.6:40557,0.9 s,1,0,0,1,false,38.6 MiB / 10,000,000,59 B / 1
+1,[stdout](#),[stderr](#),172.21.0.5:39433,1.0 s,1,0,0,1,false,38.6 MiB / 10,000,000,59 B / 1
+0,[stdout](#),[stderr](#),172.21.0.3:42319,0.3 s,1,0,0,1,false,—,56 B / 1
+
+## Correction avec Salting
+`spark-apps/salted_join.py`
+
+```bash
+spark-submit \
+  --master spark://spark-master:7077 \
+  salted_join.py
+```
+
+
 ### Arrêter le cluster
 
 Pour arrêter les conteneurs sans supprimer les données :
